@@ -38,6 +38,19 @@ Install all tools and ensure they are on your `$PATH`.
 conda create -n genome_annot -c bioconda -c conda-forge \
     busco repeatmodeler repeatmasker agat apptainer
 conda activate genome_annot
+
+conda create -n rnaseq -c bioconda \
+    star samtools 
+```
+
+### Download Braker3 image 
+
+```bash
+#download image
+wget https://hub.docker.com/r/teambraker/braker3
+
+# build image
+singularity build braker3.sif docker://teambraker/braker3:latest
 ```
 
 ---
@@ -55,6 +68,7 @@ BUSCO_LINEAGE := embryophyta_odb10   # change to your clade
 
 # Evidence for BRAKER (use one or both):
 PROTEIN_DB   := orthodb_proteins.fa
+
 ```
 
 ### 2. Run the pipeline

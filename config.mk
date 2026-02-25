@@ -15,10 +15,10 @@ THREADS := 16
 
 # ── Conda environments ─────────────────────────────────────────────────────────
 # Environment containing BUSCO, RepeatModeler, and RepeatMasker
-CONDA_ANNOTATION := annotation
+CONDA_ANNOTATION := genome_annot
 
 # Environment containing Apptainer (for running the BRAKER3 .sif) and AGAT
-CONDA_APPTAINER  := apptainer
+CONDA_APPTAINER  := genome_annot
 
 # Environment containing STAR and samtools (only needed if using RNA-seq)
 CONDA_RNASEQ     := rnaseq
@@ -73,11 +73,11 @@ BRAKER3_SIF := braker3.sif
 BRAKER_DIR := 06_braker
 
 # Protein database (EP or ETP mode).
-# Download OrthoDB Eudicotyledons:
-#   wget https://bioinf.uni-greifswald.de/bioinf/partitioned_odb11/Eudicotyledons.fa.gz
-#   gunzip Eudicotyledons.fa.gz
+# Download OrthoDB Viridiplantae: (change to your desired lineage if needed)
+#   wget https://bioinf.uni-greifswald.de/bioinf/partitioned_odb12/Viridiplantae.fa.gz
+#   gunzip Viridiplantae.fa.gz
 # Comment out to run ET mode (RNA-seq only).
-PROTEIN_DB := Eudicotyledons.fa
+PROTEIN_DB := Viridiplantae.fa
 
 # Extra BRAKER3 arguments.
 # --AUGUSTUS_ab_initio outputs raw ab initio predictions alongside evidence-
