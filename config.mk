@@ -66,7 +66,7 @@ STAR_DIR := 05_star
 # Path to your BRAKER3 .sif file.
 # Build:   make build_sif
 # Or point at an existing image, e.g.:
-#   BRAKER3_SIF := /scratch/shared/containers/braker3.sif
+#   BRAKER3_SIF := containers/braker3.sif
 BRAKER3_SIF := braker3.sif
 
 # ── BRAKER3 evidence ───────────────────────────────────────────────────────────

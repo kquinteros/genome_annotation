@@ -37,6 +37,11 @@ RUN_ANNOTATION := conda run --no-capture-output -n $(CONDA_ANNOTATION)
 RUN_APPTAINER  := conda run --no-capture-output -n $(CONDA_APPTAINER)
 RUN_RNASEQ     := conda run --no-capture-output -n $(CONDA_RNASEQ)
 
+# if using micromamba
+#RUN_ANNOTATION := micromamba run -n $(CONDA_ANNOTATION)
+#RUN_APPTAINER  := micromamba run -n $(CONDA_APPTAINER)
+#RUN_RNASEQ     := micromamba run -n $(CONDA_RNASEQ)
+
 # ── Auto-detect BRAKER3 mode from config.mk ───────────────────────────────────
 # Logic:
 #   HAS_PROTEIN is set if PROTEIN_DB is defined and non-empty
