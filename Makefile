@@ -195,8 +195,33 @@ $(STAMP_REPMOD): $(GENOME) | $(STAMP_DIR)
 			-pa $(THREADS) \
 			-LTRStruct \
 			2>&1 | tee RepeatModeler.log
+	@# ── Verify primary output exists; recover from checkpoint if not ─────────
+	@if [ ! -f "$(REPEAT_MODELER_DIR)/$(GENOME_NAME)-families.fa" ]; then \
+		echo "[RepeatModeler] WARNING: $(GENOME_NAME)-families.fa not found."; \
+		echo "[RepeatModeler] Attempting recovery from last checkpoint..."; \
+		RECOVER_DIR=$$(ls -dt $(REPEAT_MODELER_DIR)/RM_* 2>/dev/null | head -1); \
+		if [ -z "$$RECOVER_DIR" ]; then \
+			echo "ERROR: No RepeatModeler checkpoint directory found under $(REPEAT_MODELER_DIR)."; \
+			echo "  Cannot recover. Check $(REPEAT_MODELER_DIR)/RepeatModeler.log for details."; \
+			exit 1; \
+		fi; \
+		echo "[RepeatModeler] Recovering from: $$RECOVER_DIR"; \
+		cd $(REPEAT_MODELER_DIR) && \
+			$(RUN_ANNOTATION) RepeatModeler \
+				-database $(GENOME_NAME) \
+				-engine $(REPEAT_ENGINE) \
+				-pa $(THREADS) \
+				-LTRStruct \
+				-recoverDir $$RECOVER_DIR \
+				2>&1 | tee -a RepeatModeler.log; \
+		if [ ! -f "$(REPEAT_MODELER_DIR)/$(GENOME_NAME)-families.fa" ]; then \
+			echo "ERROR: $(GENOME_NAME)-families.fa still missing after recovery."; \
+			echo "  Check $(REPEAT_MODELER_DIR)/RepeatModeler.log for details."; \
+			exit 1; \
+		fi; \
+	fi
+	@echo "[RepeatModeler] Output confirmed: $(REPEAT_MODELER_DIR)/$(GENOME_NAME)-families.fa"
 	touch $@
-
 # =============================================================================
 # STEP 3 – RepeatMasker: soft-mask genome
 #   conda env: CONDA_ANNOTATION
